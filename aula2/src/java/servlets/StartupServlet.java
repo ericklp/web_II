@@ -1,25 +1,35 @@
+package servlets;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 
+import beans.ConfigBean;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author ericklopes
  */
-@WebServlet(urlPatterns = {"/LogoutServlet"})
-public class LogoutServlet extends HttpServlet {
+@WebServlet(name="StartupServlet", urlPatterns = {"/StartupServlet"}, loadOnStartup = 1)
+public class StartupServlet extends HttpServlet {
 
+    public void init(ServletConfig config) {
+        ConfigBean conf = new ConfigBean();
+        conf.setEmail("razer.anthom@gmail.com");
+        ServletContext ctx = config.getServletContext();
+        ctx.setAttribute("configuracao", conf);
+    }
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -33,23 +43,14 @@ public class LogoutServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            
-            HttpSession session = request.getSession(false);
-            
-            if(session!=null)
-            {
-                session.invalidate();
-            }
-
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>LOGOUT</title>");            
+            out.println("<title>Servlet StartupServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1> Usuário deslogado!</h1>");
-            out.println("<a href=\"index.html\">index.html</a>");
+            out.println("<h1>Servlet StartupServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -95,3 +96,5 @@ public class LogoutServlet extends HttpServlet {
     }// </editor-fold>
 
 }
+
+

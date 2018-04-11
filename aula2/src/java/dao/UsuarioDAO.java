@@ -1,4 +1,7 @@
+package dao;
 
+
+import beans.Usuario;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,7 +26,7 @@ public class UsuarioDAO {
     
     public UsuarioDAO() throws SQLException, ClassNotFoundException
     {
-            this.conn = (Connection) new db.ConnectionFactory().getConnection();
+            this.conn = (Connection) new dao.ConnectionFactory().getConnection();
     }
     
     public Usuario findUsuarioByLogin(String login) throws SQLException {

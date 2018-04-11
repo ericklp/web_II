@@ -1,12 +1,19 @@
+package servlets;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 
+import beans.Usuario;
+import dao.UsuarioDAO;
+import beans.LoginBean;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -51,11 +58,14 @@ public class LoginServlet extends HttpServlet {
                 
                 if(usuario.getSenha().equals(password)){
                     HttpSession session = request.getSession();
-                    session.setAttribute("login", usuario.getLogin());
-                    session.setAttribute("senha", usuario.getSenha());
-                    session.setAttribute("nome", usuario.getNome());
                     
-                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/PortalServlet");
+                    LoginBean loginBean = new LoginBean();
+                    loginBean.setId(usuario.getLogin());
+                    loginBean.setNome(usuario.getNome());
+
+                    session.setAttribute("login",loginBean);
+
+                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/portal.jsp");
                     rd.forward(request, response);
                 }
                 else{

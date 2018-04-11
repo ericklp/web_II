@@ -1,3 +1,5 @@
+package servlets;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -6,8 +8,6 @@
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import static java.time.Clock.system;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,8 +19,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author ericklopes
  */
-@WebServlet(urlPatterns = {"/PortalServlet"})
-public class PortalServlet extends HttpServlet {
+@WebServlet(urlPatterns = {"/LogoutServlet"})
+public class LogoutServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,39 +34,27 @@ public class PortalServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+        try (PrintWriter out = response.getWriter()) {
             
-            HttpSession session = request.getSession();
+            HttpSession session = request.getSession(false);
             
-            String login = (String)session.getAttribute("login");
-            String senha = (String)session.getAttribute("senha");
-            String nome = (String)session.getAttribute("nome");
-            
-            
-            if(login==null || login.isEmpty()) {
-
-                request.setAttribute("msg", "Usuário não logado!");
-                request.setAttribute("page", "index.html");
-
-                System.out.println("ERICK");
-                RequestDispatcher rd = getServletContext().getRequestDispatcher("/ErrorServlet");
-                rd.forward(request, response);
-            }
-            else
+            if(session!=null)
             {
-                try (PrintWriter out = response.getWriter()) {
-                    out.println("<!DOCTYPE html>");
-                    out.println("<html>");
-                    out.println("<head>");
-                    out.println("<title>OK</title>");            
-                    out.println("</head>");
-                    out.println("<body>");
-                    out.println("<h1> Seja bem vindo: "+nome+"</h1>");
-                    out.println("<a href=\"LogoutServlet\">LogoutServlet</a>");
-                    out.println("</body>");
-                    out.println("</html>");
-                }
+                session.invalidate();
             }
+
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>LOGOUT</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1> Usuário deslogado!</h1>");
+            out.println("<a href=\"index.html\">index.html</a>");
+            out.println("</body>");
+            out.println("</html>");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
