@@ -23,11 +23,10 @@
                     rd.forward(request, response);
                 }
                 else {
+                    out.println("<jsp:useBean id='login' class='beans.LoginBean' scope='session' />" +
+                                "<h1>Nome: <jsp:getProperty name='login' property='nome' /></h1>" +
+                                "<a href='LogoutServlet'>LogoutServlet</a>");
             %>
-                    <jsp:useBean id="login" class="beans.LoginBean" scope="session" />
-                    <h1>Nome: <jsp:getProperty name="login" property="nome" /></h1>
-                    <a href="LogoutServlet">LogoutServlet</a>   
-            <% }%>
 
 
 
