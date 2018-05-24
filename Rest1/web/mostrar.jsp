@@ -6,22 +6,26 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
+<head><title>JSP Page</title></head>
     <body>
-    <h1>Dados</h1>
-        <table>
-            <tr>
-                <th>Nome</th>
-                <th>E-mail</th>
-            </tr>
-            <tr>
-                <td>${pessoa.nome}</td>
-                <td>${pessoa.email}</td>
-            </tr>
+        <h1>Status: ${status}</h1>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>E-mail</th>
+            <th>Data</th>
+        </tr>
+        <tr>
+            <td>${pessoa.id}</td>
+            <td>${pessoa.nome}</td>
+            <td>${pessoa.email}</td>
+        <td>
+            <fmt:formatDate value="${pessoa.data}" pattern="dd/MM/yyyy" />
+        </td>
+        </tr>
         </table>
     </body>
 </html>

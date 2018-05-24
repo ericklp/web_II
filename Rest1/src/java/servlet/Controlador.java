@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  *
@@ -38,11 +39,12 @@ public class Controlador extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             Client client = ClientBuilder.newClient();
-            Pessoa retorno = client
-                                .target("http://localhost:8080/Rest1/webresources/pessoas/500")
+            Response resp = client
+                                .target("http://localhost:8080/Rest1/webresources/pessoas/21/12/2016")
                                 .request(MediaType.APPLICATION_JSON)
-                                .get(Pessoa.class);
-            request.setAttribute("pessoa", retorno);
+                                .get();
+            request.setAttribute("status", resp.getStatus());
+            request.setAttribute("pessoa", resp.readEntity(Pessoa.class));
             request.getRequestDispatcher("mostrar.jsp")
                                 .forward(request, response);
         }

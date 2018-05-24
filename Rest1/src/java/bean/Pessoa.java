@@ -6,6 +6,7 @@
 package bean;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  *
@@ -15,8 +16,17 @@ public class Pessoa implements Serializable {
     private int id;
     private String nome;
     private String email;
+    private Date data;
 
     public Pessoa() {
+    }
+
+    public Date getData() {
+        return data;
+    }
+
+    public void setData(Date data) {
+        this.data = data;
     }
 
     public int getId() {
@@ -42,5 +52,4 @@ public class Pessoa implements Serializable {
     public void setEmail(String email) {
         this.email = email;
     }
-
 }
