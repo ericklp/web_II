@@ -61,7 +61,7 @@
             <label for="data">Data Atendimento:</label><input class="form-control" type="datetime" name="data" value="${visualizaratendimento.data}" disabled/><br/>
             </div>
             <div class="form-group col-md-5">
-            <label for="res">Status:</label><input class="form-control" type="text" name="res" maxlength="12" value="<c:out value="${(visualizaratendimento.res_atendimento == \"Y\") ? \"Resolvido\" : \"Não Resolvido\"}"/>" disabled/><br/>
+            <label for="res">Status:</label><input class="form-control" type="text" name="res" maxlength="12" value="<c:out value="${(visualizaratendimento.res_atendimento == \"Y\") ? \"Resolvido\" : \"Não Resolvido\"}"/>"/><br/>
             </div>
             </div>
             <a class="btn btn-outline-danger" href="AtendimentoServlet">Cancelar</a>

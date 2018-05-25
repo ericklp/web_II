@@ -58,14 +58,20 @@
                     </c:if>
                     
         <a class="btn btn-outline-success" href="AtendimentoServlet?action=formNew">Novo</a>
-        <table class="table table-striped"><tr><th>Data/Hora</th><th>Produto</th><th>Nome Cliente</th><th>Detalhes</th></tr>
+        <table class="table table-striped"><tr><th>Data/Hora</th><th>Produto</th><th>Nome Cliente</th><th>Detalhes</th><th>Resolver Atendimento</th></tr>
 
         <c:forEach items="${atendimentos}" var="atendimento">
             <tr>
                 <td><fmt:formatDate value="${atendimento.data}" pattern="dd/MM/yyyy HH:mm"/></td>
                 <td><c:out value="${atendimento.produto.nome}"/></td>
                 <td><c:out value="${atendimento.cliente.nome}"/></td>
-                <td><a href="AtendimentoServlet?action=show&id=<c:out value="${atendimento.id}"/>"><i class="ion-person"></i></a></td>
+                <td><a href="AtendimentoServlet?action=show&id=<c:out value="${atendimento.id}"/>"><i class="ion-more"></i></a></td>
+                <c:if test="${(atendimento.res_atendimento == \"N\")}" >
+                    <td><a href="AtendimentoServlet?action=update&id=<c:out value="${atendimento.id}"/>&res=<c:out value="${atendimento.id}"/>" class="btn btn-outline-success"><i class="ion-checkmark"></i></a></td>
+                </c:if>
+                <c:if test="${(atendimento.res_atendimento == \"Y\")}" >
+                    <td><a>Resolvido</a></td>
+                </c:if>
             </tr>
         </c:forEach>
 

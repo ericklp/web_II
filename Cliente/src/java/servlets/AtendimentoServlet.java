@@ -121,75 +121,26 @@ public class AtendimentoServlet extends HttpServlet {
                         rd.forward(request, response);
                     } else {
                         if (acao.equals("update")) {
-                            Cliente cliente = new Cliente();
+                            Atendimento atendimento = new Atendimento();
+                            int id = Integer.parseInt(request.getParameter("id"));
                             try {
-                                int id = Integer.parseInt(request.getParameter("id"));
-                                cliente.setId(id);
-                                String cpf = request.getParameter("cpf");
-                                cpf = cpf.replace(".", "");
-                                cpf = cpf.replace("-", "");
-                                Cliente cl = ClienteFacade.buscarClienteByCpf(cpf, id);
-                                if (cl != null) {
-                                    request.setAttribute("msg", "CPF já cadastrado no sistema.");
-
-                                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/ClientesServlet?action=list");
-                                    rd.forward(request, response);
-                                }
-                                cliente.setCpf(cpf);
-                                String email = request.getParameter("email");
-                                
-                                
-                                cl = ClienteFacade.buscarClienteByEmail(email, id);
-                                if (cl != null) {
-                                    request.setAttribute("msg", "E-mail já cadastrado no sistema.");
-
-                                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/ClientesServlet?action=list");
-                                    rd.forward(request, response);
-                                }
-                                cliente.setEmail(email);
-                            } catch (NumberFormatException | SQLException | ClassNotFoundException ex) {
-                                request.setAttribute("exception", ex);
-                                RequestDispatcher rd = getServletContext().getRequestDispatcher("/erro.jsp");
-                                rd.forward(request, response);
-                            }
-                            
-                            cliente.setNome(request.getParameter("nome"));
-                            
-                            
-                            String dataString = request.getParameter("data");
-                            DateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
-                            try {
-                                Date data = new Date(fmt.parse(dataString).getTime());
-                                cliente.setData(data);
-                            } catch (ParseException ex) {
-                                request.setAttribute("exception", ex);
-                                RequestDispatcher rd = getServletContext().getRequestDispatcher("/erro.jsp");
-                                rd.forward(request, response);
-                            }
-                            String cep = request.getParameter("cep");
-                            cep = cep.replace("-", "");
-                            cliente.setCep(cep);
-                            cliente.setRua(request.getParameter("rua"));
-                            try {
-                                int numero = Integer.parseInt(request.getParameter("numero"));
-                                int idcidade = Integer.parseInt(request.getParameter("cidade"));
-                                Cidade cidade = CidadeFacade.buscarCidade(idcidade);
-                                cliente.setCidade(cidade);
-                                cliente.setNumero(numero);
-                            } catch (NumberFormatException | SQLException | ClassNotFoundException ex) {
-                                request.setAttribute("exception", ex);
-                                RequestDispatcher rd = getServletContext().getRequestDispatcher("/erro.jsp");
-                                rd.forward(request, response);
-                            }                            
-                            
-                            try {
-                                ClienteFacade.alterar(cliente);
+                                atendimento = AtendimentoFacade.buscar(id);
                             } catch (SQLException | ClassNotFoundException ex) {
                                 request.setAttribute("exception", ex);
                                 RequestDispatcher rd = getServletContext().getRequestDispatcher("/erro.jsp");
                                 rd.forward(request, response);
                             }
-                            RequestDispatcher rd = getServletContext().getRequestDispatcher("/ClientesServlet?action=list");
+
+                            atendimento.setRes_atendimento("Y");
+                            
+                            try {
+                                AtendimentoFacade.alterar(atendimento);
+                            } catch (SQLException | ClassNotFoundException ex) {
+                                request.setAttribute("exception", ex);
+                                RequestDispatcher rd = getServletContext().getRequestDispatcher("/erro.jsp");
+                                rd.forward(request, response);
+                            }
+                            RequestDispatcher rd = getServletContext().getRequestDispatcher("/AtendimentoServlet?action=list");
                             rd.forward(request, response);
                         } else {
                             if (acao.equals("formNew")) {
