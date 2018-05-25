@@ -24,7 +24,7 @@ public class AtendimentoFacade {
         return atendimentodao.getAtendimentoByIdUsuario(id);
     }
     
-        public static List<Atendimento> buscarTodosAtendimentos() throws SQLException, ClassNotFoundException {
+    public static List<Atendimento> buscarTodosAtendimentos() throws SQLException, ClassNotFoundException {
         AtendimentoDAO atendimentodao = new AtendimentoDAO();
         return atendimentodao.getAtendimentos();
     }
@@ -68,4 +68,25 @@ public class AtendimentoFacade {
         ProdutoDAO produtodao = new ProdutoDAO();
         return produtodao.getProdutoById(idproduto);
     }
+    
+    public static List<Produto> buscarTodosProdutos() throws SQLException, ClassNotFoundException {
+        ProdutoDAO produtodao = new ProdutoDAO();
+        return produtodao.getProdutos();
+    }
+    
+    public static void inserirProduto(Produto produto) throws SQLException, ClassNotFoundException {
+        ProdutoDAO produtodao = new ProdutoDAO();
+        produtodao.insertProduto(produto);
+    }
+    
+    public static void alterarProduto(Produto produto) throws SQLException, ClassNotFoundException {
+        ProdutoDAO produtodao = new ProdutoDAO();
+        produtodao.updateProdutoById(produto);
+    }
+    
+    public static void removerProduto(int id) throws SQLException, ClassNotFoundException {
+        ProdutoDAO produtodao = new ProdutoDAO();
+        produtodao.removeProdutoById(id);
+    }
+    
 }

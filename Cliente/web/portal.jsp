@@ -25,7 +25,7 @@
         <nav class="navbar navbar-expand-md navbar-dark bg-primary">
             <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item"><a class="nav-link" href="ProdutosServlet">Cadastro de  Produtos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="ProdutoServlet">Cadastro de  Produtos</a></li>
                     <li class="nav-item"><a class="nav-link" href="AtendimentoServlet">Atendimentos</a></li>
                 </ul>
             </div>

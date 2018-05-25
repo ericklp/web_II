@@ -57,8 +57,6 @@ public class AtendimentoServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String acao = request.getParameter("action");
         
-        LoginBean lb = (LoginBean) session.getAttribute("usuario");
-        
         if (acao == null || acao.equals("list")) {
             List<Atendimento> atendimentos;
             try {
