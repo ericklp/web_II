@@ -14,6 +14,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  *
@@ -27,78 +33,66 @@ public class ProdutoDAO {
     }
 
     public List<Produto> getProdutos() throws SQLException {
-        ResultSet rs;
-        List<Produto> produtos = new ArrayList<>();
-        Statement stmt = conn.createStatement();
-        String query = "select * from tb_produto";
-        rs = stmt.executeQuery(query);
-        while (rs.next()) {
-            int id = rs.getInt("id_produto");
-            String nome = rs.getString("nome_produto");
-            Produto produto = new Produto();
-            produto.setId(id);
-            produto.setNome(nome);
-            produtos.add(produto);
-        }
-        return produtos;
+        String uriWS = "http://localhost:8080/aula2/webresources/produtos";        
+        Client client = ClientBuilder.newClient();
+        Response resp = client
+                            .target(uriWS)
+                            .request(MediaType.APPLICATION_JSON)
+                            .get();
+
+        List<Produto> lista =
+                        resp.readEntity( new GenericType<List<Produto>>() {});
+        
+        return lista;
     }
 
     public Produto getProdutoById(int idproduto) throws SQLException {
-        String sql = "SELECT * FROM tb_produto e WHERE id_produto=(?);";
+        Produto produto = new Produto();
 
-        PreparedStatement stmt = conn.prepareStatement(sql);
-        stmt.setInt(1, idproduto);
+        String uriWS = "http://localhost:8080/aula2/webresources/produtos";        
+        Client client = ClientBuilder.newClient();
+        Response resp = client
+                            .target(uriWS)
+                            .path(Integer.toString(idproduto))
+                            .request(MediaType.APPLICATION_JSON)
+                            .get();
 
-        ResultSet res = stmt.executeQuery();
-
-        while (res.next()) {
-            int id = res.getInt("id_produto");
-            String nome = res.getString("nome_produto");
-            Produto produto = new Produto();
-            produto.setId(id);
-            produto.setNome(nome);
-            return produto;
-        }
-        return null;
+        produto = resp.readEntity(Produto.class);
+        
+        return produto;
     }
     
     public void insertProduto(Produto produto) throws SQLException {
-        String sql = "insert into tb_produto values((?), (?));";
-		
-        PreparedStatement stmt = conn.prepareStatement(sql);
-        int id = this.getMaxId();
-        ++id;
-        stmt.setInt(1,id);
-        stmt.setString(2, produto.getNome());
-        stmt.executeUpdate();
+        String uriWS = "http://localhost:8080/aula2/webresources/produtos";        
+        Client client = ClientBuilder.newClient();
+        Response resp = client
+                            .target(uriWS)
+                            .request(MediaType.APPLICATION_JSON)
+                            .post(Entity.json(produto));
+        
+        return;
     }
     
     public void updateProdutoById(Produto produto) throws SQLException {
-        String sql = "UPDATE tb_produto SET nome_produto=(?) where id_produto=(?);";
-		
-        PreparedStatement stmt = conn.prepareStatement(sql);
-        stmt.setString(1,produto.getNome());
-        stmt.setInt(2,produto.getId());
-        stmt.executeUpdate();
+        String uriWS = "http://localhost:8080/aula2/webresources/produtos";        
+        Client client = ClientBuilder.newClient();
+        Response resp = client
+                            .target(uriWS)
+                            .path(Integer.toString(produto.getId()))
+                            .request(MediaType.APPLICATION_JSON)
+                            .put(Entity.json(produto));
+        return;
     }
     
     public void removeProdutoById(int id) throws SQLException {
-        String sql = "DELETE FROM tb_produto where id_produto=(?);";
-		
-        PreparedStatement stmt = conn.prepareStatement(sql);
-        stmt.setInt(1,id);
-        stmt.executeUpdate();
+        String uriWS = "http://localhost:8080/aula2/webresources/produtos";        
+        Client client = ClientBuilder.newClient();
+        Response resp = client
+                            .target(uriWS)
+                            .path(Integer.toString(id))
+                            .request(MediaType.APPLICATION_JSON)
+                            .delete();
+        return;
     }
-    
-    public int getMaxId() throws SQLException {
-        String sql = "SELECT MAX(id_produto) FROM tb_produto;";
-		
-        PreparedStatement stmt = conn.prepareStatement(sql);
-        ResultSet res = stmt.executeQuery();
-        while (res.next())
-        { 
-            return res.getInt(1);
-        }
-        return 0;
-    }
+
 }
